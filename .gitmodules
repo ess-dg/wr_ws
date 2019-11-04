@@ -1,0 +1,3 @@
+[submodule "src/spinnaker_sdk_camera_driver"]
+	path = src/spinnaker_sdk_camera_driver
+	url = https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver
