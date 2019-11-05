@@ -1,0 +1,262 @@
+Cmultigrid@multigrid-nb1:~/catkin_ws/src/dummy_welder/scripts$ rosrun dummy_welder dummy_welder.py 
+ROBOT_FSM : Robot started, awaiting centering
+ROBOT_FSM : Moving to X: 257.50 Y: 410.00 Z: 30.00
+ROBOT_FSM : Robot centered, awating coordinates
+Received traj size of 16 blades with 2 points, 2 coords
+Line Start -> X : 329.41 Y: 408.0
+Line End   -> X : 329.41 Y: 417.74
+Line Start -> X : 319.51 Y: 408.15
+Line End   -> X : 319.51 Y: 417.59
+Line Start -> X : 309.32 Y: 408.15
+Line End   -> X : 309.32 Y: 417.74
+Line Start -> X : 299.28 Y: 408.15
+Line End   -> X : 299.28 Y: 417.59
+Line Start -> X : 288.94 Y: 408.15
+Line End   -> X : 288.94 Y: 417.74
+Line Start -> X : 278.89 Y: 408.15
+Line End   -> X : 278.89 Y: 417.59
+Line Start -> X : 268.7 Y: 408.0
+Line End   -> X : 268.7 Y: 417.29
+Line Start -> X : 258.81 Y: 408.0
+Line End   -> X : 258.81 Y: 417.44
+Line Start -> X : 248.61 Y: 408.15
+Line End   -> X : 248.61 Y: 417.59
+Line Start -> X : 238.87 Y: 408.15
+Line End   -> X : 238.87 Y: 417.59
+Line Start -> X : 228.98 Y: 408.15
+Line End   -> X : 228.98 Y: 417.44
+Line Start -> X : 219.08 Y: 408.15
+Line End   -> X : 219.08 Y: 417.59
+Line Start -> X : 209.34 Y: 408.15
+Line End   -> X : 209.34 Y: 417.59
+Line Start -> X : 199.29 Y: 408.0
+Line End   -> X : 199.29 Y: 417.44
+Line Start -> X : 189.7 Y: 408.0
+Line End   -> X : 189.55 Y: 417.44
+Line Start -> X : 179.81 Y: 408.15
+Line End   -> X : 179.81 Y: 417.44
+End of traj
+ROBOT_FSM : Robot centered, awaiting reference marking
+ROBOT_FSM : Moving to X: 341.70 Y: 401.70 Z: 30.00
+ROBOT_FSM : Trajectory initiated
+ROBOT_FSM: Point -> [329.40999999999997, 408.0]
+ROBOT_FSM : Moving to X: 329.41 Y: 408.00 Z: 30.00
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [329.40999999999997, 417.74]
+ROBOT_FSM : Moving to X: 329.41 Y: 417.74 Z: 30.00
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 15 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [319.51, 417.59]
+ROBOT_FSM : Moving to X: 319.51 Y: 417.59 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [319.51, 408.15]
+ROBOT_FSM : Moving to X: 319.51 Y: 408.15 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 14 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [309.32, 408.15]
+ROBOT_FSM : Moving to X: 309.32 Y: 408.15 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [309.32, 417.74]
+ROBOT_FSM : Moving to X: 309.32 Y: 417.74 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 13 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [299.28, 417.59]
+ROBOT_FSM : Moving to X: 299.28 Y: 417.59 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [299.28, 408.15]
+ROBOT_FSM : Moving to X: 299.28 Y: 408.15 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 12 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [288.94, 408.15]
+ROBOT_FSM : Moving to X: 288.94 Y: 408.15 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [288.94, 417.74]
+ROBOT_FSM : Moving to X: 288.94 Y: 417.74 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 11 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [278.89, 417.59]
+ROBOT_FSM : Moving to X: 278.89 Y: 417.59 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [278.89, 408.15]
+ROBOT_FSM : Moving to X: 278.89 Y: 408.15 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 10 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [268.7, 408.0]
+ROBOT_FSM : Moving to X: 268.70 Y: 408.00 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [268.7, 417.28999999999996]
+ROBOT_FSM : Moving to X: 268.70 Y: 417.29 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 9 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [258.81, 417.44]
+ROBOT_FSM : Moving to X: 258.81 Y: 417.44 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [258.81, 408.0]
+ROBOT_FSM : Moving to X: 258.81 Y: 408.00 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 8 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [248.60999999999999, 408.15]
+ROBOT_FSM : Moving to X: 248.61 Y: 408.15 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [248.60999999999999, 417.59]
+ROBOT_FSM : Moving to X: 248.61 Y: 417.59 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 7 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [238.87, 417.59]
+ROBOT_FSM : Moving to X: 238.87 Y: 417.59 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [238.87, 408.15]
+ROBOT_FSM : Moving to X: 238.87 Y: 408.15 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 6 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [228.98, 408.15]
+ROBOT_FSM : Moving to X: 228.98 Y: 408.15 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [228.98, 417.44]
+ROBOT_FSM : Moving to X: 228.98 Y: 417.44 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 5 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [219.07999999999998, 417.59]
+ROBOT_FSM : Moving to X: 219.08 Y: 417.59 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [219.07999999999998, 408.15]
+ROBOT_FSM : Moving to X: 219.08 Y: 408.15 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 4 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [209.33999999999997, 408.15]
+ROBOT_FSM : Moving to X: 209.34 Y: 408.15 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [209.33999999999997, 417.59]
+ROBOT_FSM : Moving to X: 209.34 Y: 417.59 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 3 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [199.29, 417.44]
+ROBOT_FSM : Moving to X: 199.29 Y: 417.44 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [199.29, 408.0]
+ROBOT_FSM : Moving to X: 199.29 Y: 408.00 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 2 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [189.7, 408.0]
+ROBOT_FSM : Moving to X: 189.70 Y: 408.00 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [189.54999999999998, 417.44]
+ROBOT_FSM : Moving to X: 189.55 Y: 417.44 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 1 blades remaining
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Welding in grid
+ROBOT_FSM: Point -> [179.81, 417.44]
+ROBOT_FSM : Moving to X: 179.81 Y: 417.44 Z: 30.00
+LASER_FSM: Turning on the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM : Trajectory on progress
+ROBOT_FSM : Next point to process
+ROBOT_FSM: Point -> [179.81, 408.15]
+ROBOT_FSM : Moving to X: 179.81 Y: 408.15 Z: 30.00
+LASER_FSM: Turning off the laser
+ROBOT_FSM: Point reached
+ROBOT_FSM: blade finished, 0 blades remaining
+ROBOT_FSM : Trajectory completed
+ROBOT_FSM : Moving to X: 257.50 Y: 410.00 Z: 30.00
