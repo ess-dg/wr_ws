@@ -1,42 +1,36 @@
-#!/usr/bin/env python
-# Dynamically subscribes to frames as needed
+#!/usr/bin/env python3
+"""line_detection_batch_query.py
+
+Have to figure out what this does...
+"""
 
 import sys
 import time
-import glob
 import threading
-
 import numpy as np
-from scipy.ndimage import filters
-
 import cv2 as cv
 
-import roslib
 import rospy
 import imutils
-import matplotlib.pyplot as plt
-
-from sensor_msgs.msg import CompressedImage, CameraInfo, Image
+from sensor_msgs.msg import CompressedImage, CameraInfo
 from std_msgs.msg import String
-from rospy.numpy_msg import numpy_msg
-from rospy_tutorials.msg import Floats
 
 # Houglines detection threshold values in px
-minLineLength = 10
-maxLineGap = 30
+MIN_LINE_LENGTH = 10
+MAX_LINE_GAP = 30
 
 # Canny detection variables
-loc_th = 20
-len_th = [60, 75]
-dst_th = [30, 60]
-canny_th = [50, 300]  # 300 for real grid, 200 for template
-slope_th = 0.1      # threshold value for considering vertical lines, in rads 0.044
-px_to_mm = 0.1499   # pseudo empiric value
+LOC_TH = 20
+LEN_TH = [60, 75]
+DST_TH = [30, 60]
+CANNY_TH = [50, 300]  # 300 for real grid, 200 for template
+SLOPE_TH = 0.1      # threshold value for considering vertical lines, in rads 0.044
+PX_TO_MM = 0.1499   # pseudo empiric value
 
 # Macros for lines/blade sort
 LINES_PER_BLADE = 5
 FRAMES_NUMBER = 5
-BLADES_PER_GRID = 16  # CSPEC
+BLADES_PER_GRID = 16
 
 chunk_factor = 3  # as the camera only frames 3 grids at a time
 image_chunks = []
@@ -45,7 +39,7 @@ font = cv.FONT_HERSHEY_SIMPLEX
 
 
 class image_feature:
-
+    """Subscribes to frames being published"""
     def __init__(self):
         self.camera_matrix = 0
         self.dist_coeff = 0
@@ -68,9 +62,9 @@ class image_feature:
         self.count_mask[:] = LINES_PER_BLADE
 
         # This values are in pixes for 1080x960 res and a camera position of z30 at the CNC and aprox 154 mm from grid
-        self.blade_loc = [89.58, 153.81,  221.76,  285.96,
-                          354.84, 421.57,  489.30,  555.31,
-                          621.92, 687.86,  753.63,  819.42,
+        self.blade_loc = [89.58, 153.81, 221.76, 285.96,
+                          354.84, 421.57, 489.30, 555.31,
+                          621.92, 687.86, 753.63, 819.42,
                           883.50, 948.99, 1016.79, 1081.44]
 
         self.detect_query = rospy.Subscriber("line_detection/query", String,
@@ -91,7 +85,7 @@ class image_feature:
 
         self.template = cv.imread(img_path + 'pattern.png')
         self.template = cv.cvtColor(self.template, cv.COLOR_BGR2GRAY)
-        self.template = cv.Canny(self.template, canny_th[0], canny_th[1])
+        self.template = cv.Canny(self.template, CANNY_TH[0], CANNY_TH[1])
         self.thread_list = []
 
     def info_callback(self, ros_data):
@@ -126,8 +120,8 @@ class image_feature:
             if len(self.frames) == FRAMES_NUMBER:
                 self.process_frames()
 
-    # for all the possible lines found for a blade in a grid, average
     def sort_lines(self):
+        """For all the possible lines found for a blade in a grid, average"""
         blades_msg = [[[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []],
                       [[], [], [], [], [], [], [], [],
                           [], [], [], [], [], [], [], []],
@@ -151,13 +145,13 @@ class image_feature:
                 line_avg /= len(blade)
                 self.blade_lines_sorted[grid_idx][blade_idx] = line_avg
                 blades_msg[grid_idx][blade_idx].append(
-                    '%.2f' % ((self.grid_ref[grid_idx][0] - line_avg[0])*px_to_mm))
+                    '%.2f' % ((self.grid_ref[grid_idx][0] - line_avg[0])*PX_TO_MM))
                 blades_msg[grid_idx][blade_idx].append(
-                    '%.2f' % ((self.grid_ref[grid_idx][1] - line_avg[1])*px_to_mm))
+                    '%.2f' % ((self.grid_ref[grid_idx][1] - line_avg[1])*PX_TO_MM))
                 blades_msg[grid_idx][blade_idx].append(
-                    '%.2f' % ((self.grid_ref[grid_idx][0] - line_avg[2])*px_to_mm))
+                    '%.2f' % ((self.grid_ref[grid_idx][0] - line_avg[2])*PX_TO_MM))
                 blades_msg[grid_idx][blade_idx].append(
-                    '%.2f' % ((self.grid_ref[grid_idx][1] - line_avg[3])*px_to_mm))
+                    '%.2f' % ((self.grid_ref[grid_idx][1] - line_avg[3])*PX_TO_MM))
 
         self.mark_pub.publish(str(self.mark_location))
         for grid_idx, grid in enumerate(blades_msg):
@@ -168,17 +162,17 @@ class image_feature:
             rospy.sleep(0.01)
 
     def process_chunk(self, chunk, chunk_idx, chunk_size, chunk_time):
-        edges = cv.Canny(chunk, canny_th[0], canny_th[1], apertureSize=3)
+        edges = cv.Canny(chunk, CANNY_TH[0], CANNY_TH[1], apertureSize=3)
         lines = cv.HoughLinesP(edges, 1, np.pi/180, 40,
-                               None, minLineLength, maxLineGap)
+                               None, MIN_LINE_LENGTH, MAX_LINE_GAP)
         if lines is not None:
             if self.get_ctr:
                 ctr = match_template(self.template, chunk)
                 self.grid_ref[chunk_idx][0] = ctr[0]
                 self.grid_ref[chunk_idx][1] = ctr[1]
-                self.mark_location[chunk_idx][0] = (640-ctr[0])*px_to_mm
+                self.mark_location[chunk_idx][0] = (640-ctr[0])*PX_TO_MM
                 self.mark_location[chunk_idx][1] = (
-                    ctr[1] + chunk_size*chunk_idx-480)*px_to_mm
+                    ctr[1] + chunk_size*chunk_idx-480)*PX_TO_MM
 
                 self.get_ctr = False
             get_lines(self, lines, chunk_idx, chunk_size)
@@ -190,8 +184,7 @@ class image_feature:
         w = np.size(self.frames[0], 1)
         K = self.camera_matrix
         d = self.dist_coeff
-        newcamera, roi = cv.getOptimalNewCameraMatrix(K, d, (w, h), 0)
-        ###
+        newcamera, _ = cv.getOptimalNewCameraMatrix(K, d, (w, h), 0)
 
         chunk_size = h / chunk_factor
         for image in self.frames:
@@ -228,7 +221,7 @@ class image_feature:
             if detection_ready:
                 break
 
-        #print("Detection finished")
+        print("Detection finished")
         print("Elapsed time for %d frames %.2f ms" %
               (self.processed_frames, (time.time() - self.preproc_time)*1000))
         # save last frame
@@ -240,14 +233,12 @@ class image_feature:
 
         for grid in self.blade_lines:
             for blade in grid:
-                if (len(blade) < LINES_PER_BLADE):
+                if len(blade) < LINES_PER_BLADE:
                     enough_lines = False
                     break
 
-        if enough_lines is False:
-            # get more frames
-            print("Not enough detected lines,Getting more frames...")
-            return
+        if not enough_lines:
+            print("Not enough detected lines, getting more frames...")
         else:
             print("Elapsed time for detecting all grids %.2f ms" %
                   ((time.time() - self.preproc_time)*1000))
@@ -271,32 +262,18 @@ class image_feature:
                 cv.circle(image, (int(ctr[0]), int(
                     ctr[1]) + chunk_size*idx), 30, (0, 255, 0), 2, cv.LINE_AA)
                 print("%.2f , %.2f" % (
-                    (640-ctr[0])*px_to_mm, (ctr[1] + chunk_size*idx-480)*px_to_mm))
+                    (640-ctr[0])*PX_TO_MM, (ctr[1] + chunk_size*idx-480)*PX_TO_MM))
 
-            ###
-            pub_time = time.time()
             ### Create and Publish CompressedIamge ####
+            pub_time = time.time()
             msg = CompressedImage()
             msg.header.stamp = rospy.Time.now()
             msg.format = "jpeg"
             msg.data = np.array(cv.imencode('.jpg', image)[1]).tostring()
             self.image_pub.publish(msg)
             print("Pub image time %.2f ms" % ((time.time() - pub_time)*1000))
-            ###
-
-
-def main(args):
-    ic = image_feature()
-    rospy.init_node('line_detection', anonymous=False)
-    try:
-        rospy.spin()
-    except KeyboardInterrupt:
-        print "Shutting down ROS Image feature detector module"
-    cv.destroyAllWindows()
-
 
 def match_template(template, gray):
-
     (tH, tW) = template.shape[:2]
     found = None
     for scale in np.linspace(0.2, 1.0, 20)[::-1]:
@@ -308,7 +285,7 @@ def match_template(template, gray):
         # from the loop
         if resized.shape[0] < tH or resized.shape[1] < tW:
             break
-        edged = cv.Canny(resized, canny_th[0], canny_th[1])
+        edged = cv.Canny(resized, CANNY_TH[0], CANNY_TH[1])
         result = cv.matchTemplate(edged, template, cv.TM_CCOEFF)
         (_, maxVal, _, maxLoc) = cv.minMaxLoc(result)
         # if we have found a new maximum correlation value, then update
@@ -334,11 +311,10 @@ def get_lines(self, lines, chunk_idx, chunk_size):
 
         line_len = length(x1, x2, y1, y2)
         slope = slope_cal(x1, x2, y1, y2)
-
         # Check if the line is vertical and with the desired length
-        if slope == 1 and line_len > len_th[0] and line_len < len_th[1]:
+        if slope == 1 and line_len > LEN_TH[0] and line_len < LEN_TH[1]:
             # discard the lines that dont start where the blade should start
-            if ((ctr[1] - y1) > dst_th[0] and (ctr[1] - y1) < dst_th[1]) or ((ctr[1] - y2) > dst_th[0] and (ctr[1] - y2) < dst_th[1]):
+            if ((ctr[1] - y1) > DST_TH[0] and (ctr[1] - y1) < DST_TH[1]) or ((ctr[1] - y2) > DST_TH[0] and (ctr[1] - y2) < DST_TH[1]):
 
                 if y1 <= y2:
                     dist_to_ref = length(ctr[0], x2, ctr[1], y2)
@@ -346,25 +322,31 @@ def get_lines(self, lines, chunk_idx, chunk_size):
                     dist_to_ref = length(ctr[0], x1, ctr[1], y1)
 
                 for loc_idx, loc in enumerate(self.blade_loc):
-                    if (len(self.blade_lines[chunk_idx][loc_idx]) < LINES_PER_BLADE):
-                        if (dist_to_ref > (loc - loc_th)) and (dist_to_ref < (loc + loc_th)):
+                    if len(self.blade_lines[chunk_idx][loc_idx]) < LINES_PER_BLADE:
+                        if dist_to_ref > (loc - LOC_TH) and dist_to_ref < (loc + LOC_TH):
                             self.blade_count[chunk_idx][loc_idx] += 1
                             self.blade_lines[chunk_idx][loc_idx].append(line)
     # return img
 
-
 def slope_cal(x0, x1, y0, y1):
     slope = np.arctan2((y1-y0), (x1-x0))
-    if np.abs(slope - 0) < slope_th or np.abs(slope - np.pi) < slope_th:
+    if np.abs(slope - 0) < SLOPE_TH or np.abs(slope - np.pi) < SLOPE_TH:
         return 0
-    if np.abs(slope - np.pi/2) < slope_th or np.abs(slope + np.pi/2) < slope_th:
+    if np.abs(slope - np.pi/2) < SLOPE_TH or np.abs(slope + np.pi/2) < SLOPE_TH:
         return 1
     return 2
-
 
 def length(x0, x1, y0, y1):
     return np.sqrt(np.power(y1-y0, 2) + np.power(x1-x0, 2))
 
+def main():
+    image_feature()
+    rospy.init_node('line_detection', anonymous=False)
+    try:
+        rospy.spin()
+    except KeyboardInterrupt:
+        print("Shutting down ROS Image feature detector module")
+    cv.destroyAllWindows()
 
 if __name__ == '__main__':
     main(sys.argv)
