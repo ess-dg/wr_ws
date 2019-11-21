@@ -84,29 +84,29 @@ class MyPlugin(Plugin):
 
     def image_callback(self,ros_data):
         np_arr = np.fromstring(ros_data.data, np.uint8)
-        image  = cv.imdecode(np_arr, cv.IMREAD_COLOR)
-        height, width, channel = image.shape
-        bytesPerLine = 3 * width
-        qImage = QImage(image.data, width, height, bytesPerLine, QImage.Format_RGB888).rgbSwapped()
-        pix    = QPixmap(qImage)
+        image = cv.imdecode(np_arr, cv.IMREAD_COLOR)
+        height, width, _ = image.shape
+        bytes_per_line = 3 * width
+        qImage = QImage(image.data, width, height, bytes_per_line, QImage.Format_RGB888).rgbSwapped()
+        pix = QPixmap(qImage)
         h_label = self._widget.videoDisplay.height()
-        w_label = self._widget.videoDisplay.width()      
-        self._widget.videoDisplay.setPixmap(pix.scaled(w_label,h_label,Qt.KeepAspectRatio))
+        w_label = self._widget.videoDisplay.width()
+        self._widget.videoDisplay.setPixmap(pix.scaled(w_label, h_label, Qt.KeepAspectRatio))
     
-    def time_callback(self,ros_data):
+    def time_callback(self, ros_data):
         time_text = ros_data.data + ' s'
-        self._widget.timeLabel.setText(time_text) 
+        self._widget.timeLabel.setText(time_text)
 
-    def progress_callback(self,ros_data):
+    def progress_callback(self, ros_data):
         self.emit(Signal("changeUI(PyQt_PyObject)"), ros_data.data)
 
-    def laser_state_clbk(self,ros_data):
+    def laser_state_clbk(self, ros_data):
         if ros_data.data == 's':
             self._widget.laserStatusLabel.setText('OFF')
         elif ros_data.data == 'f':
             self._widget.laserStatusLabel.setText('ON')
 
-    def status_callback(self,ros_data):
+    def status_callback(self, ros_data):
         if ros_data.data != '0':
             self._widget.startButton.setEnabled(False)
             self._widget.stopButton.setEnabled(True)
