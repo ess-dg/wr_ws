@@ -1,0 +1,20 @@
+<library path="src">
+  <class name="rqt_welder_plugin" type="welder_node_gui.welder_gui.MyPlugin" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      A Python GUI plugin for displaying the welder gui
+    </description>
+    <qtgui>
+      <!-- optional grouping...
+      <group>
+        <label>Group</label>
+      </group>
+      <group>
+        <label>Subgroup</label>
+      </group>
+      -->
+      <label>Welder Robot GUI</label>
+      <icon type="theme">applications-other</icon>
+      <statustip>A Python GUI plugin for displaying the welder gui</statustip>
+    </qtgui>
+  </class>
+</library>

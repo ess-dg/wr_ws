@@ -1,0 +1,3 @@
+Open this in QtCreator in order to keep editing the .ui file.
+You dont need any of the other files, they are created automatically
+the .ui file is linked from the ROS node to load the GUI with PyQt(within RQT framework)
