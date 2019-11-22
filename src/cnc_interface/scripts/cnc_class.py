@@ -3,6 +3,10 @@ Future implementations might include control for other
 GCODE compatible systems
 
 See scattered todos
+
+ALO: See scattered TODOs. This code needs serious refactoring. GCode message parsing should be
+separate function. Command termination (e.g. line feed, carriage return) should be global var.
+Socket connectivity and messaging should be separate function.
 """
 
 import time
@@ -146,7 +150,7 @@ class Cnc:
             print("Serial port unavailable")
 
     def move_relative(self, dx=None, dy=None, dz=None, speed=None, block=True):
-        """ move a given distance, and return when movement completes
+        """Move a given distance, and return when movement completes
         :param dx, dy, dz: distance to move
         :param speed: units uncertain
         :param block: whether to return immediately, or wait for the movement to complete
@@ -183,15 +187,14 @@ class Cnc:
             self.block_until_idle()
 
     def move_to_origin(self, speed=None):
-        """ Move to starting position, and return when movement completes."""
+        """Move to starting position, and return when movement completes."""
         if speed is None:
             speed = self.default_speed
         self.move_to(*self.origin, speed=speed)
         self.pos = list(self.origin)
 
     def set_origin(self, x=0, y=0, z=0):
-        """ Set current position to be (0,0,0), or a custom (x,y,z)
-        """
+        """Set current position to be (0,0,0), or a custom (x,y,z)."""
         gcode = "G92 x{} y{} z{}\n".format(x, y, z)
         self.serial.write(gcode)
         self.serial.readline()
@@ -200,8 +203,7 @@ class Cnc:
         self.pos = [x, y, z]
 
     def ensure_move_mode(self, abs_move_mode=True):
-        """ GRBL has two movement modes; if necessary this function tells GRBL to switch modes
-        """
+        """GRBL has two movement modes; if necessary this function tells GRBL to switch modes."""
         if self.abs_move_mode == abs_move_mode: return
 
         self.abs_move_mode = abs_move_mode
@@ -212,8 +214,7 @@ class Cnc:
             self.serial.readline()
 
     def block_until_idle(self):
-        """ Polls until GRBL indicates it is done with the last command
-        """
+        """Polls until GRBL indicates it is done with the last command."""
         pollcount = 0
         while True:
             self.serial.write("?")
