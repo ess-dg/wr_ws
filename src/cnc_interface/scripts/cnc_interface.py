@@ -9,12 +9,11 @@ from cnc_class import Cnc
 CNC_OBJ = Cnc()
 
 
-def cmd_callback(msg):
-    rospy.loginfo(rospy.get_name() + ": " + str(msg))
-    #print(msg.linear.x, msg.linear.y, msg.linear.z)
+def callback(msg):
+    rospy.loginfo(f"{rospy.get_name()}: {str(msg)}")
     CNC_OBJ.move_to(msg.linear.x, msg.linear.y, msg.linear.z)
 
-def stop_callback(msg):
+def toggle_callback(msg):
     if msg.data == 's':
         CNC_OBJ.disable_stepper_motors()
     elif msg.data == 'f':
@@ -24,8 +23,8 @@ def main():
     """Create ROS topics."""
     pos_pub = rospy.Publisher('/cnc_interface/position', Twist, queue_size=10)
     status_pub = rospy.Publisher('/cnc_interface/status', String, queue_size=10)
-    rospy.Subscriber('cnc_interface/cmd', Twist, cmd_callback)
-    rospy.Subscriber('cnc_interface/stop', String, stop_callback)
+    rospy.Subscriber('cnc_interface/cmd', Twist, callback)
+    rospy.Subscriber('cnc_interface/stop', String, toggle_callback)
 
     rospy.init_node('cnc_interface', anonymous=True)
 
