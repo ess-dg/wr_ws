@@ -1,4 +1,4 @@
-# cnc_interface.py
+"""Creates Cnc object and creates ROS topics."""
 
 import rospy
 from std_msgs.msg import String
@@ -11,7 +11,7 @@ CNC_OBJ = Cnc()
 
 def cmd_callback(msg):
     rospy.loginfo(rospy.get_name() + ": " + str(msg))
-    print(msg.linear.x, msg.linear.y, msg.linear.z)
+    #print(msg.linear.x, msg.linear.y, msg.linear.z)
     CNC_OBJ.move_to(msg.linear.x, msg.linear.y, msg.linear.z)
 
 def stop_callback(msg):
@@ -21,8 +21,7 @@ def stop_callback(msg):
         CNC_OBJ.enable_stepper_motors()
 
 def main():
-    """Create ROS topics
-    """
+    """Create ROS topics."""
     pos_pub = rospy.Publisher('/cnc_interface/position', Twist, queue_size=10)
     status_pub = rospy.Publisher('/cnc_interface/status', String, queue_size=10)
     rospy.Subscriber('cnc_interface/cmd', Twist, cmd_callback)
