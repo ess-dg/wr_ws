@@ -12,8 +12,7 @@ from geometry_msgs.msg import Twist
 
 
 class Cnc:
-    """CNC class
-    """
+    """CNC class."""
     # Regular expression for parsing GRBL status msgs
     __pos_pattern__ = re.compile(r".Pos:(\-?\d+\.\d+),(\-?\d+\.\d+),(\-?\d+\.\d+)")
 
@@ -44,8 +43,7 @@ class Cnc:
 
     def startup(self, port, baudrate, accel, x_max, y_max, z_max, default_speed, x_max_speed,
                 y_max_speed, z_max_speed, x_steps_mm, y_steps_mm, z_steps_mm):
-        """Initiate CNC parameters read from .launch file
-        """
+        """Initiate CNC parameters read from .launch file."""
         self.baudrate = baudrate
         self.port = port
         self.accel = accel
@@ -67,12 +65,13 @@ class Cnc:
         self.set_origin()
 
     def shutdown(self):
+        """Close serial connection."""
+        # TODO (ALO): Should probably flush buffer.
         self.serial.close()
 
     def get_pos(self):
-        """Return a list [x,y,z] of the position of the gantry head
-        """
-        return list(self.pos)	# copy the list so caller can't modify our internal state
+        """Return a list [x,y,z] of the position of the gantry head."""
+        return list(self.pos)
 
     def get_twist(self):
         # Convert coordinates to ROS Twist format to be able to publish it later
@@ -92,8 +91,7 @@ class Cnc:
         self.default_speed = speed
 
     def home(self):
-        """Initiates the home procedure
-        """
+        """Initiates the homing procedure."""
         self.serial.write("$H\n")
         self.serial.readline()
         self.pos = list(self.origin)
@@ -113,8 +111,7 @@ class Cnc:
             print("Serial port unavailable")
 
     def move_to(self, x=None, y=None, z=None, speed=None):
-        """Move to an absolute position and return when movement completes
-        """
+        """Move to an absolute position and return when movement completes."""
         if not self.idle:
             return
         if x is None and y is None and z is None:
@@ -178,7 +175,7 @@ class Cnc:
         self.serial.readline()
 
         # the position update should be done after reading state
-        #update position if success
+        # update position if success
         # TODO (pablo): check to make sure it's actually a success
         #self.pos = newpos
 
@@ -186,8 +183,7 @@ class Cnc:
             self.block_until_idle()
 
     def move_to_origin(self, speed=None):
-        """ Move to starting position, and return when movement completes
-        """
+        """ Move to starting position, and return when movement completes."""
         if speed is None:
             speed = self.default_speed
         self.move_to(*self.origin, speed=speed)
