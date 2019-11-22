@@ -49,7 +49,6 @@ class MyPlugin(Plugin):
             print(f"arguments: {args}")
             print(f"unknowns: {unknowns}")
 
-        # Create QWidget
         self._widget = QWidget()
         # Get path to UI file which should be in the "resource" folder of this package
         ui_file = os.path.join(rospkg.RosPack().get_path('welder_node_gui'), 'resource', 'gui.ui')
@@ -64,14 +63,11 @@ class MyPlugin(Plugin):
         # tell from pane to pane.
         if context.serial_number() > 1:
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
-        # Add widget to the user interface
+
         context.add_widget(self._widget)
         self._widget.startButton.clicked.connect(self.start_cnc)
         self._widget.stopButton.clicked.connect(self.stop_cnc)
         self._widget.timeLabel.setText('None')
-        #self._widget.progressBar.setValue(0)
-        #self.progressSignal = Signal(str)
-        #self._widget.connect(self._widget,self.progressSignal,self.progress_slot)
 
     def start_cnc(self):
         self.cmd_pub.publish('1')
@@ -134,8 +130,3 @@ class MyPlugin(Plugin):
         # TODO (Pablo): restore intrinsic configuration, usually using:
         # v = instance_settings.value(k)
         pass
-
-    #def trigger_configuration(self):
-        # Comment in to signal that the plugin has a way to configure
-        # This will enable a setting button (gear icon) in each dock widget title bar
-        # Usually used to open a modal configuration dialog
