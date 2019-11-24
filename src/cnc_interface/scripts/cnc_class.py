@@ -69,7 +69,7 @@ class Cnc:
         # TODO (ALO): Should probably flush buffer.
         self.serial.close()
 
-    def get_pos(self) -> List:
+    def get_pos(self) -> List[float]:
         """Return a list [x,y,z] of the position of the gantry head."""
         return list(self.pos)
 

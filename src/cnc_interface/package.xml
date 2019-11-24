@@ -4,7 +4,6 @@
   <version>1.0</version>
   <description>The cnc_interface package</description>
 
-  <maintainer email=""></maintainer>
   <license>MIT</license>
   <author email="pacosfran@gmail.com">Pablo Costas Franco</author> 
 
@@ -16,6 +15,4 @@
   <exec_depend>rospy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
 
-  <export>
-  </export>
 </package>
