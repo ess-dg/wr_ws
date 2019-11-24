@@ -1,4 +1,4 @@
-"""Class valid for interfacing XYZ cartesian CNC.
+"""Class for interfacing XYZ cartesian CNC.
 
 Based off of github.com/openautomation/ROS-GRBL/xyz.py
 
@@ -71,18 +71,19 @@ class Cnc:
         # TODO (ALO): Should probably flush buffer.
         self.serial.close()
 
-    def get_pos(self):
+    def get_pos(self) -> List:
         """Return a list [x,y,z] of the position of the gantry head."""
         return list(self.pos)
 
-    def get_twist(self):
-        # Convert coordinates to ROS Twist format to be able to publish it later
+    def get_twist(self) -> Twist:
+        """Return Twist object with CNC coordinates."""
         cnc_pos = Twist()
+
         cnc_pos.linear.x = float(self.pos[0])
         cnc_pos.linear.y = float(self.pos[1])
         cnc_pos.linear.z = float(self.pos[2])
         # These parameters are set to 0 as the CNC is a XYZ 3 DOF mechanism and doesnt need them
-        # ALO: ?
+        # TODO (ALO): I read the above to mean that this probably should be removed then...
         cnc_pos.angular.x = float(self.angular[0])
         cnc_pos.angular.y = float(self.angular[1])
         cnc_pos.angular.z = float(self.angular[2])
@@ -148,12 +149,7 @@ class Cnc:
             print("Serial port unavailable")
 
     def move_relative(self, dx=None, dy=None, dz=None, speed=None, block=True):
-        """Move a given distance, and return when movement completes
-        :param dx, dy, dz: distance to move
-        :param speed: units uncertain
-        :param block: whether to return immediately, or wait for the movement to complete
-        """
-
+        """Move a given distance, and return when movement completes."""
         self.ensure_move_mode(abs_move_mode=False)
         if speed is None:
             speed = self.default_speed
@@ -175,11 +171,6 @@ class Cnc:
 
         self.serial.write(gcode)
         self.serial.readline()
-
-        # the position update should be done after reading state
-        # update position if success
-        # TODO (pablo): check to make sure it's actually a success
-        #self.pos = newpos
 
         if block:
             self.block_until_idle()
