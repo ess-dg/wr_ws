@@ -1,8 +1,4 @@
 """Class valid for interfacing XYZ cartesian CNC
-Future implementations might include control for other
-GCODE compatible systems
-
-See scattered todos
 
 ALO: See scattered TODOs. This code needs serious refactoring. GCode message parsing should be
 separate function. Command termination (e.g. line feed, carriage return) should be global var.
