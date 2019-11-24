@@ -16,11 +16,13 @@ def callback(msg):
     rospy.loginfo(f"{rospy.get_name()}: {str(msg)}")
     CNC_OBJ.move_to(msg.linear.x, msg.linear.y, msg.linear.z)
 
+
 def toggle_callback(msg):
     if msg.data == 's':
         CNC_OBJ.disable_stepper_motors()
     elif msg.data == 'f':
         CNC_OBJ.enable_stepper_motors()
+
 
 def main():
     """Create ROS topics."""

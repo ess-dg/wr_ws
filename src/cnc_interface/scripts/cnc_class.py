@@ -35,7 +35,6 @@ class Cnc:
         self.x_steps_mm = 0
         self.y_steps_mm = 0
         self.z_steps_mm = 0
-        # machine idle
         self.idle = True
         # vectors follow the format [X, Y, Z] where Z is assumed to be vertical
         self.pos = [0.0, 0.0, 0.0]  # current position
@@ -59,7 +58,6 @@ class Cnc:
         self.x_steps_mm = x_steps_mm
         self.y_steps_mm = y_steps_mm
         self.z_steps_mm = z_steps_mm
-
         self.limits = [self.x_max, self.y_max, self.z_max]
         self.serial = serial.Serial(self.port, self.baudrate)
         self.ensure_move_mode(True)
@@ -78,7 +76,6 @@ class Cnc:
     def get_twist(self) -> Twist:
         """Return Twist object with CNC coordinates."""
         cnc_pos = Twist()
-
         cnc_pos.linear.x = float(self.pos[0])
         cnc_pos.linear.y = float(self.pos[1])
         cnc_pos.linear.z = float(self.pos[2])
@@ -87,7 +84,6 @@ class Cnc:
         cnc_pos.angular.x = float(self.angular[0])
         cnc_pos.angular.y = float(self.angular[1])
         cnc_pos.angular.z = float(self.angular[2])
-
         return cnc_pos
 
     def set_speed(self, speed):
