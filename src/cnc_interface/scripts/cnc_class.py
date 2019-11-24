@@ -1,4 +1,6 @@
-"""Class valid for interfacing XYZ cartesian CNC
+"""Class valid for interfacing XYZ cartesian CNC.
+
+Based off of github.com/openautomation/ROS-GRBL/xyz.py
 
 ALO: See scattered TODOs. This code needs serious refactoring. GCode message parsing should be
 separate function. Command termination (e.g. line feed, carriage return) should be global var.

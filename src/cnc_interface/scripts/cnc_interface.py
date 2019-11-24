@@ -1,4 +1,7 @@
-"""Creates Cnc object and creates ROS topics."""
+"""Creates Cnc object and creates ROS topics.
+
+Based off of github.com/openautomation/ROS-GRBL/ros_test.py
+"""
 
 import rospy
 from std_msgs.msg import String
