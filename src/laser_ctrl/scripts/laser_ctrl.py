@@ -70,7 +70,7 @@ def main(args):
     try:
         rospy.spin()
     except KeyboardInterrupt:
-        print "Shutting down ROS Image feature detector module"
+        print(f"Shutting down ROS Image feature detector module")
 
 if __name__ == '__main__':
     main(sys.argv)
